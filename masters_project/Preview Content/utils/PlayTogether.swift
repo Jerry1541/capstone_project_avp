@@ -18,7 +18,7 @@ struct PlayTogether: GroupActivity {
             metadata.title = "Cross Together"
             metadata.subtitle = "Watch vehicles"
             metadata.previewImage = UIImage(named: "ActivityImage")?.cgImage
-            metadata.type = .shopTogether
+            metadata.type = .exploreTogether
             return metadata
         }
     
