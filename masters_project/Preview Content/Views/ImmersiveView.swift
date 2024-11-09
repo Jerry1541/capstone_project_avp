@@ -8,8 +8,11 @@
 import SwiftUI
 import RealityKit
 import RealityKitContent
+import GroupActivities
 
 struct ImmersiveView: View {
+
+    @Environment(AppModel.self) private var appModel
 
     var body: some View {
         RealityView { content in
@@ -20,6 +23,15 @@ struct ImmersiveView: View {
                 // Put skybox here.  See example in World project available at
                 // https://developer.apple.com/
             }
+        }
+        .task {
+//            for await session in PlayTogether.sessions() {
+//                guard let systemCoordinator = await session.systemCoordinator else { continue }
+//                    var configuration = SystemCoordinator.Configuration()
+//                    configuration.supportsGroupImmersiveSpace = true
+//                    systemCoordinator.configuration = configuration
+//                    session.join()
+//            }
         }
     }
 }

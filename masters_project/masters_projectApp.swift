@@ -14,7 +14,7 @@ struct masters_projectApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(playGround: PlayGround())
                 .environment(appModel)
         }
 
@@ -29,5 +29,5 @@ struct masters_projectApp: App {
                 }
         }
         .immersionStyle(selection: .constant(.mixed), in: .mixed)
-     }
+    }
 }
