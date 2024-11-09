@@ -16,13 +16,22 @@ class PlayGround: ObservableObject {
     
     @Published var activityItemsConfiguration: UIActivityItemsConfiguration?
     
-    func configureGroupSession(_ groupSession: GroupSession<PlayTogether>) {
-        
-        print("in here")
-        print(groupSession.$activeParticipants)
+    func startActivity() {
+        Task {
+            try! await PlayTogether().activate()
+        }
+    }
+
+    func configureGroupSession() {
+        Task {
+            print("poi")
+            for await _ in PlayTogether.sessions() {
+                print("inside")
+            }
+        }
     }
     
-    func startActivity() {
+    func registerActivity() {
         // Create the activity
         let activity = PlayTogether()
 
@@ -42,6 +51,7 @@ class PlayGround: ObservableObject {
             return metadata
         }
         self.activityItemsConfiguration = configuration
+        print("adfk")
         
 //        Task {
 //            do {

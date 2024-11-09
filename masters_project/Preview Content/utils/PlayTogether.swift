@@ -10,9 +10,6 @@ import GroupActivities
 import UIKit
 
 struct PlayTogether: GroupActivity {
-    
-    static let activityIdentifier = "com.example.apple-avp_sample.Watch.CrossTogether"
-    
     var metadata: GroupActivityMetadata {
             var metadata = GroupActivityMetadata()
             metadata.title = "Cross Together"

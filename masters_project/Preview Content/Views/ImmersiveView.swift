@@ -13,6 +13,7 @@ import GroupActivities
 struct ImmersiveView: View {
 
     @Environment(AppModel.self) private var appModel
+    @ObservedObject var playGround: PlayGround
 
     var body: some View {
         RealityView { content in
@@ -24,19 +25,16 @@ struct ImmersiveView: View {
                 // https://developer.apple.com/
             }
         }
-        .task {
-//            for await session in PlayTogether.sessions() {
-//                guard let systemCoordinator = await session.systemCoordinator else { continue }
-//                    var configuration = SystemCoordinator.Configuration()
-//                    configuration.supportsGroupImmersiveSpace = true
-//                    systemCoordinator.configuration = configuration
-//                    session.join()
-//            }
-        }
+//        .task {
+//            playGround.configureGroupSession()
+//        }
+//        .task {
+//            playGround.registerActivity()
+//        }
     }
 }
 
 #Preview(immersionStyle: .mixed) {
-    ImmersiveView()
+    ImmersiveView(playGround: PlayGround())
         .environment(AppModel())
 }

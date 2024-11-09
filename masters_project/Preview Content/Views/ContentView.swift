@@ -15,7 +15,7 @@ struct ContentView: View {
     @Environment(AppModel.self) private var appMode
     @ObservedObject var playGround: PlayGround
     @StateObject var groupStateObserver = GroupStateObserver()
-    
+
     var body: some View {
         VStack {
             VStack {
@@ -23,25 +23,20 @@ struct ContentView: View {
             }
             HStack {
                 if playGround.groupSession == nil && groupStateObserver.isEligibleForGroupSession {
-                    Button("SharePlay", systemImage: "Play Together") {
+                    Button("SharePlay", systemImage: "shareplay") {
                         playGround.startActivity()
                     }
                 }
-                
                 Spacer()
             }
             Text(appMode.debugLog)
 
             ToggleImmersiveSpaceButton()
+        }.task {
+            playGround.configureGroupSession()
         }
         .task {
-            appMode.debugLog += "window \n"
-            for await session in PlayTogether.sessions() {
-                guard let systemCoordinator = await session.systemCoordinator else { continue }
-                    var configuration = SystemCoordinator.Configuration()
-                    configuration.supportsGroupImmersiveSpace = true
-                    systemCoordinator.configuration = configuration
-            }
+            playGround.registerActivity()
         }
         .padding()
     }

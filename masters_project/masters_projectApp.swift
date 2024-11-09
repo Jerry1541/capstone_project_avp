@@ -19,7 +19,7 @@ struct masters_projectApp: App {
         }
 
         ImmersiveSpace(id: appModel.immersiveSpaceID) {
-            ImmersiveView()
+            ImmersiveView(playGround: PlayGround())
                 .environment(appModel)
                 .onAppear {
                     appModel.immersiveSpaceState = .open
