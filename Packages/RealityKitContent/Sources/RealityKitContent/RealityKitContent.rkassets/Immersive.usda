@@ -10,6 +10,7 @@
 
 def Xform "Root"
 {
+    reorder nameChildren = ["Material", "Cube", "capstone", "Material_1", "car", "Material_2", "carmove", "AudioMixGroups", "Timeline2"]
     def Material "Material"
     {
         token outputs:mtlx:surface.connect = </Root/Material/PreviewSurface.outputs:out>
@@ -235,6 +236,36 @@ def Xform "Root"
                 }
             }
         }
+
+        def RealityKitComponent "RCP_BehaviorsContainer"
+        {
+            rel behaviors = </Root/car/OnAddedToScene>
+            uniform token info:id = "RCP.BehaviorsContainer"
+        }
+
+        def Preliminary_Behavior "OnAddedToScene"
+        {
+            rel actions = </Root/car/OnAddedToScene/Action>
+            uniform bool exclusive
+            rel triggers = </Root/car/OnAddedToScene/Trigger>
+
+            def Preliminary_Trigger "Trigger"
+            {
+                rel affectedObjects = </Root/car>
+                token info:id = "SceneTransition"
+            }
+
+            def Preliminary_Action "Action"
+            {
+                rel affectedObjects = </Root>
+                rel animationLibraryKey = </Root/carmove>
+                rel animationLibraryKeyOverrideKey = </Root/car/OnAddedToScene/Trigger>
+                token info:id = "PlayTimeline"
+                int loops = 0
+                int performCount = 1
+                token type = "serial"
+            }
+        }
     }
 
     def Material "Material_2"
@@ -251,7 +282,9 @@ def Xform "Root"
         }
     }
 
-    def RealityKitTimeline "Timeline"
+    def RealityKitTimeline "carmove" (
+        references = None
+    )
     {
         reorder nameChildren = ["Track2", "Track"]
         def RealityKitTrack "Track2"
@@ -266,10 +299,6 @@ def Xform "Root"
                 double startTime = 0
                 rel target = </Root/car>
             }
-        }
-
-        def RealityKitTrack "Track"
-        {
         }
     }
 
@@ -290,6 +319,11 @@ def Xform "Root"
         def RealityKitTrack "Track"
         {
         }
+    }
+
+    def RealityKitComponent "AnimationLibrary"
+    {
+        token info:id = "RealityKit.AnimationLibrary"
     }
 }
 
