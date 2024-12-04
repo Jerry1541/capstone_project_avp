@@ -22,11 +22,24 @@
 
 /* Begin PBXFileReference section */
 		14A5DC072CDB1F620031F724 /* masters_project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = masters_project.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		14A5DC0B2CDB1F620031F724 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
 		14A5DC222CDB1F650031F724 /* masters_projectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = masters_projectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		143C28F62CF46CFA00358CC5 /* Exceptions for "Packages" folder in "masters_project" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				RealityKitContent,
+			);
+			target = 14A5DC062CDB1F620031F724 /* masters_project */;
+		};
+		143C28F72CF46CFA00358CC5 /* Exceptions for "Packages" folder in "masters_projectTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				RealityKitContent,
+			);
+			target = 14A5DC212CDB1F650031F724 /* masters_projectTests */;
+		};
 		14A5DC282CDB1F650031F724 /* Exceptions for "masters_project" folder in "masters_project" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -37,6 +50,15 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		143C28F42CF46CFA00358CC5 /* Packages */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				143C28F62CF46CFA00358CC5 /* Exceptions for "Packages" folder in "masters_project" target */,
+				143C28F72CF46CFA00358CC5 /* Exceptions for "Packages" folder in "masters_projectTests" target */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
 		14A5DC092CDB1F620031F724 /* masters_project */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -75,9 +97,9 @@
 			isa = PBXGroup;
 			children = (
 				14A5DC092CDB1F620031F724 /* masters_project */,
-				14A5DC0A2CDB1F620031F724 /* Packages */,
 				14A5DC252CDB1F650031F724 /* masters_projectTests */,
 				14A5DC082CDB1F620031F724 /* Products */,
+				143C28F42CF46CFA00358CC5 /* Packages */,
 			);
 			sourceTree = "<group>";
 		};
@@ -88,14 +110,6 @@
 				14A5DC222CDB1F650031F724 /* masters_projectTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		14A5DC0A2CDB1F620031F724 /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-				14A5DC0B2CDB1F620031F724 /* RealityKitContent */,
-			);
-			path = Packages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -114,6 +128,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				143C28F42CF46CFA00358CC5 /* Packages */,
 				14A5DC092CDB1F620031F724 /* masters_project */,
 			);
 			name = masters_project;
@@ -237,7 +252,7 @@
 				CODE_SIGN_ENTITLEMENTS = masters_project/masters_project.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"masters_project/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"masters_project/Supporting files\"";
 				DEVELOPMENT_TEAM = 42JJPKP725;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -247,7 +262,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "ak.masters-project";
+				PRODUCT_BUNDLE_IDENTIFIER = "ak.master-project";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -264,7 +279,7 @@
 				CODE_SIGN_ENTITLEMENTS = masters_project/masters_project.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"masters_project/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"masters_project/Supporting files\"";
 				DEVELOPMENT_TEAM = 42JJPKP725;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -274,7 +289,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "ak.masters-project";
+				PRODUCT_BUNDLE_IDENTIFIER = "ak.master-project";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
