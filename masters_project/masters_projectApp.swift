@@ -8,26 +8,13 @@
 import SwiftUI
 
 @main
-struct masters_projectApp: App {
-
-    @State private var appModel = AppModel()
-
+struct masters_project: App {
+    @StateObject private var model = AppModel()
     var body: some Scene {
-        WindowGroup {
-            ContentView(playGround: PlayGround())
-                .environment(appModel)
+        VolumeWindow(self.model)
+        ImmersiveSpace(id: "immersiveSpace") {
+            FullSpaceView()
+                .environmentObject(self.model)
         }
-
-        ImmersiveSpace(id: appModel.immersiveSpaceID) {
-            ImmersiveView(playGround: PlayGround())
-                .environment(appModel)
-                .onAppear {
-                    appModel.immersiveSpaceState = .open
-                }
-                .onDisappear {
-                    appModel.immersiveSpaceState = .closed
-                }
-        }
-        .immersionStyle(selection: .constant(.mixed), in: .mixed)
     }
 }

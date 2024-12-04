@@ -1,0 +1,24 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleName" : {
+      "comment" : "Bundle name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "masters_project"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "ペルソナチェス"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
