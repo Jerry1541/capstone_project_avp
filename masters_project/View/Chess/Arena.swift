@@ -10,8 +10,8 @@ struct Arena: View {
         RealityView { content, attachments in
             content.add(anchor)
             if let immersiveContentEntity = try? await Entity(named: "Immersive", in: realityKitContentBundle) {
-                anchor.addChild(model)
-                model.move(to: Transform(scale: SIMD3(x: 1, y: 1, z: 1), translation: SIMD3<Float>(0.01, 0.01, 0.01)), relativeTo: anchor)
+                anchor.addChild(immersiveContentEntity)
+                immersiveContentEntity.move(to: Transform(scale: SIMD3(x: 1, y: 1, z: 1), translation: SIMD3<Float>(0.01, 0.01, 0.01)), relativeTo: anchor)
             }
         } attachments: {
             Attachment(id: "board") {
