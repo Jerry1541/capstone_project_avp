@@ -10,177 +10,11 @@
 
 def Xform "Root"
 {
-    reorder nameChildren = ["Material", "Cube", "capstone", "Material_1", "car", "Material_2", "carmove", "AudioMixGroups", "Timeline", "Timeline3", "Timeline2"]
-    def Material "Material"
-    {
-        token outputs:mtlx:surface.connect = </Root/Material/PreviewSurface.outputs:out>
-        token outputs:realitykit:vertex
-        float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (335.5, 100.5)
-        int ui:nodegraph:realitykit:subgraphOutputs:stackingOrder = 7
+    reorder nameChildren = ["road", "AudioMixGroups", "AnimationLibrary", "Anchoring", "car1", "Transform", "van_crash", "car_crash", "van_move2", "car_move2", "car_move", "van_move", "Timeline", "Timeline2"]
+    float3 xformOp:translate = (-4.246743, -2.2921462, -3.996029)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-        def Shader "PreviewSurface"
-        {
-            uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
-            token outputs:out
-            float2 ui:nodegraph:node:pos = (61.92578, 89.125)
-            int ui:nodegraph:node:stackingOrder = 6
-        }
-    }
-
-    def Cube "Cube" (
-        active = false
-        prepend apiSchemas = ["MaterialBindingAPI"]
-    )
-    {
-        rel material:binding = </Root/Cube/DefaultMaterial>
-        double size = 0.2
-        quatf xformOp:orient = (1, 0, 0, 0)
-        float3 xformOp:scale = (1, 1, 1)
-        float3 xformOp:translate = (0, -0.1, 0)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-        def Material "DefaultMaterial"
-        {
-            token outputs:mtlx:surface
-            token outputs:realitykit:vertex
-            prepend token outputs:surface.connect = </Root/Cube/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
-
-            def Shader "DefaultSurfaceShader"
-            {
-                uniform token info:id = "UsdPreviewSurface"
-                color3f inputs:diffuseColor = (1, 0.14913142, 0) (
-                    colorSpace = "srgb_texture"
-                )
-                float inputs:roughness = 0.75
-                token outputs:surface
-            }
-        }
-    }
-
-    def "capstone" (
-        active = true
-        references = @capstone.usdz@
-    )
-    {
-        float3 xformOp:scale = (8, 8, 10)
-        float3 xformOp:translate = (-10, -5, 0)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-        over "Geom"
-        {
-            over "Plane_001_Plane_001" (
-                prepend apiSchemas = ["MaterialBindingAPI"]
-            )
-            {
-                rel material:binding = </Root/Material_1> (
-                    bindMaterialAs = "weakerThanDescendants"
-                )
-                float3 xformOp:scale = (0.5, 0.5, 0.5)
-                float3 xformOp:translate = (0, 0, 0)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-            }
-
-            over "Plane_002_Plane_002" (
-                prepend apiSchemas = ["MaterialBindingAPI"]
-            )
-            {
-                rel material:binding = </Root/Material_1> (
-                    bindMaterialAs = "weakerThanDescendants"
-                )
-                float3 xformOp:scale = (0.5, 0.5, 0.5)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-            }
-
-            over "Plane_003_Plane_003" (
-                prepend apiSchemas = ["MaterialBindingAPI"]
-            )
-            {
-                rel material:binding = </Root/Material_1> (
-                    bindMaterialAs = "weakerThanDescendants"
-                )
-                float3 xformOp:scale = (0.5, 0.5, 0.5)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-            }
-
-            over "Plane_005_Plane_005" (
-                prepend apiSchemas = ["MaterialBindingAPI"]
-            )
-            {
-                rel material:binding = </Root/Material_1> (
-                    bindMaterialAs = "weakerThanDescendants"
-                )
-                float3 xformOp:scale = (0.5, 0.5, 0.5)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-            }
-
-            over "Plane_004_Plane_004" (
-                prepend apiSchemas = ["MaterialBindingAPI"]
-            )
-            {
-                rel material:binding = </Root/Material_1> (
-                    bindMaterialAs = "weakerThanDescendants"
-                )
-                float3 xformOp:scale = (0.5, 0.5, 0.5)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-            }
-
-            over "Plane_Material_001" (
-                customData = {
-                    float3 rotationEulerHint = (0, 0, 0)
-                }
-            )
-            {
-                quatf xformOp:orient = (1, 0, 0, 0)
-                float3 xformOp:scale = (0.5, 0.5, 0.5)
-                float3 xformOp:translate = (0, 0, 0)
-                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-            }
-        }
-
-        over "Materials"
-        {
-            over "Material_001"
-            {
-                token outputs:mtlx:surface
-                token outputs:realitykit:vertex
-            }
-        }
-    }
-
-    def Material "Material_1"
-    {
-        token outputs:mtlx:surface.connect = </Root/Material_1/PreviewSurface.outputs:out>
-        token outputs:realitykit:vertex
-        float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (335.5, 100.5)
-
-        def Shader "PreviewSurface"
-        {
-            uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
-            color3f inputs:diffuseColor = (0.999996, 1, 1) (
-                colorSpace = "srgb_texture"
-            )
-            float inputs:roughness = 1
-            token outputs:out
-            float2 ui:nodegraph:node:pos = (93.5, 100.5)
-            int ui:nodegraph:node:stackingOrder = 3
-        }
-    }
-
-    def Material "Material_2"
-    {
-        token outputs:mtlx:surface.connect = </Root/Material_2/PreviewSurface.outputs:out>
-        token outputs:realitykit:vertex
-        float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (335.5, 100.5)
-
-        def Shader "PreviewSurface"
-        {
-            uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
-            token outputs:out
-            float2 ui:nodegraph:node:pos = (93.5, 100.5)
-        }
-    }
-
-    def RealityKitTimeline "carmove" (
+    def RealityKitTimeline "van_crash" (
         references = None
     )
     {
@@ -195,11 +29,11 @@ def Xform "Root"
                 int blendLayer = 300
                 double duration = 2.2952203215667315
                 uniform token info:id = "DD9EC0A9-00AB-4B94-B954-443FF9AD46BE"
-                float3 position = (0.31624043, 1.092733, -2.2075348)
+                float3 position = (-16.235554, 1.3077717, 3.2883554)
                 quatf rotation = (0.70710677, 0, 0.7071067, 0)
                 float3 scale = (0.99999994, 0.99999994, 0.99999994)
                 double startTime = 0
-                rel target = </Root/car>
+                rel target = </Root/Transform/Van>
 
                 def RealityKitStruct "transformMode"
                 {
@@ -246,7 +80,7 @@ def Xform "Root"
                 uniform token info:id = "2F2B955D-57DF-4F81-B915-0E56E34F0364"
                 double loopCount = 0
                 double startTime = 0.0014289983472574731
-                rel timeline = </Root/carmove>
+                rel timeline = </Root/van_crash>
             }
         }
     }
@@ -263,7 +97,7 @@ def Xform "Root"
                 uniform token info:id = "1FAD5562-F46C-4FBA-9C20-0E3F1D0C42F9"
                 double loopCount = 1
                 double startTime = 0.03891138781431335
-                rel timeline = </Root/Timeline3>
+                rel timeline = </Root/car_move>
             }
 
             def RealityKitAction "Play_Timeline2"
@@ -274,12 +108,12 @@ def Xform "Root"
                 uniform token info:id = "6963FCCE-0B6C-4CF9-89CA-5048651F80D4"
                 double loopCount = 1
                 double startTime = 10
-                rel timeline = </Root/carmove>
+                rel timeline = </Root/van_crash>
             }
         }
     }
 
-    def RealityKitTimeline "Timeline3"
+    def RealityKitTimeline "car_move"
     {
         def RealityKitTrack "Track"
         {
@@ -290,126 +124,759 @@ def Xform "Root"
                 float3 impulse = (-2, 0, 0)
                 uniform token info:id = "4422F656-34BB-4A72-BE8E-1BFF6B873AF5"
                 double startTime = 0.034585801499032884
-                rel target = </Root/car>
+                rel target = </Root/Transform/Car>
             }
         }
     }
 
-    def "car" (
-        prepend apiSchemas = ["MaterialBindingAPI"]
-        customData = {
-            float3 rotationEulerHint = (0, 1.5707963, 0)
-        }
-        references = @car.usdz@
+    def RealityKitComponent "Anchoring" (
+        active = false
     )
     {
-        rel material:binding = </Root/car/Materials/Black_Plastic> (
-            bindMaterialAs = "weakerThanDescendants"
+        uniform token info:id = "RealityKit.Anchoring"
+
+        def RealityKitStruct "descriptor"
+        {
+            matrix4d transform = ( (1, 0, 0, 0), (0, 1, 0, 0), (0, 0, 1, 0), (1, 1, 1, 1) )
+        }
+    }
+
+    def Xform "Transform" (
+        active = true
+    )
+    {
+        reorder nameChildren = ["Car", "road", "Van", "traffic_signal"]
+        def "Car" (
+            active = true
+            customData = {
+                float3 rotationEulerHint = (0, 1.5707963, 0)
+            }
+            references = @car1.usdz@
         )
-        quatf xformOp:orient = (0.70710677, 0, 0.70710677, 0)
-        float3 xformOp:scale = (1, 1, 1)
-        float3 xformOp:translate = (-0.066266075, 1.0927334, -0.218849)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-        over "Materials"
         {
-            over "Black_Plastic"
-            {
-                token outputs:mtlx:surface
-                token outputs:realitykit:vertex
-            }
+            quatf xformOp:orient = (0.7071067, 0, 0.7071068, 0)
+            float3 xformOp:scale = (0.8494858, 0.8494858, 0.8494858)
+            float3 xformOp:translate = (26.451035, 1.3192973, 1.3001719)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-            over "Car_paint_002"
+            over "Geom"
             {
-                token outputs:mtlx:surface
-                token outputs:realitykit:vertex
-            }
-
-            over "Emissionglass_001"
-            {
-                token outputs:mtlx:surface
-                token outputs:realitykit:vertex
-            }
-
-            over "Carlight_shingle_chrome_white_001"
-            {
-                token outputs:mtlx:surface
-                token outputs:realitykit:vertex
-            }
-        }
-
-        def RealityKitComponent "RigidBody"
-        {
-            bool gravityEnabled = 0
-            uniform token info:id = "RealityKit.RigidBody"
-            bool isCCDEnabled = 1
-            token motionType = "Dynamic"
-
-            def RealityKitStruct "massFrame"
-            {
-                def RealityKitStruct "m_pose"
+                over "Plane" (
+                    active = false
+                )
                 {
                 }
             }
 
-            def RealityKitStruct "material"
+            def RealityKitComponent "Collider"
             {
-            }
-        }
+                uint group = 1
+                uniform token info:id = "RealityKit.Collider"
+                uint mask = 4294967295
+                token type = "Trigger"
 
-        def RealityKitComponent "MotionState"
-        {
-            uniform token info:id = "RealityKit.MotionState"
-            float3 m_userSetLinearVelocity = (0, 0, 0)
-            uint m_userSetLinearVelocityVersion = 1
-        }
-
-        def RealityKitComponent "Collider"
-        {
-            uint group = 1
-            uniform token info:id = "RealityKit.Collider"
-            uint mask = 4294967295
-            token type = "Default"
-
-            def RealityKitStruct "Shape"
-            {
-                float3 extent = (1.887354, 1.3254519, 4.582695)
-                token shapeType = "Box"
-
-                def RealityKitStruct "pose"
+                def RealityKitStruct "Shape"
                 {
-                    float3 position = (-2.3061051, -2.264554, 13.409847)
+                    float3 extent = (1.5, 1, 4)
+                    token shapeType = "Box"
+
+                    def RealityKitStruct "pose"
+                    {
+                        float3 position = (-0.009114474, 0.659663, 1.3729141)
+                    }
+                }
+            }
+
+            def RealityKitComponent "RigidBody"
+            {
+                bool gravityEnabled = 0
+                uniform token info:id = "RealityKit.RigidBody"
+
+                def RealityKitStruct "massFrame"
+                {
+                    def RealityKitStruct "m_pose"
+                    {
+                    }
+                }
+
+                def RealityKitStruct "material"
+                {
+                }
+            }
+
+            def RealityKitComponent "RCP_BehaviorsContainer"
+            {
+                rel behaviors = [
+                    </Root/Transform/Car/OnAddedToScene>,
+                    </Root/Transform/Car/OnNotification>,
+                    </Root/Transform/Car/OnCollision>,
+                ]
+                uniform token info:id = "RCP.BehaviorsContainer"
+            }
+
+            def Preliminary_Behavior "OnAddedToScene"
+            {
+                rel actions = </Root/Transform/Car/OnAddedToScene/Action>
+                uniform bool exclusive
+                rel triggers = </Root/Transform/Car/OnAddedToScene/Trigger>
+
+                def Preliminary_Trigger "Trigger"
+                {
+                    rel affectedObjects = </Root/Transform/Car>
+                    token info:id = "SceneTransition"
+                }
+
+                def Preliminary_Action "Action"
+                {
+                    rel affectedObjects = </Root>
+                    rel animationLibraryKey = </Root/car_move2>
+                    rel animationLibraryKeyOverrideKey = </Root/Transform/Car/OnAddedToScene/Trigger>
+                    token info:id = "PlayTimeline"
+                    int loops = 0
+                    int performCount = 1
+                    token type = "serial"
+                }
+            }
+
+            over "Materials"
+            {
+                over "Black_Plastic"
+                {
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+                }
+            }
+
+            def Preliminary_Behavior "OnNotification"
+            {
+                rel actions = </Root/Transform/Car/OnNotification/Action>
+                uniform bool exclusive
+                rel triggers = </Root/Transform/Car/OnNotification/Trigger>
+
+                def Preliminary_Trigger "Trigger"
+                {
+                    rel affectedObjects = </Root/Transform/Car>
+                    string identifier = "notifier"
+                    token info:id = "Notification"
+                }
+
+                def Preliminary_Action "Action"
+                {
+                    rel affectedObjects = </Root>
+                    rel animationLibraryKey = </Root/car_crash>
+                    rel animationLibraryKeyOverrideKey = </Root/Transform/Car/OnNotification/Trigger>
+                    token info:id = "PlayTimeline"
+                    int loops = 0
+                    int performCount = 1
+                    token type = "serial"
+                }
+            }
+
+            def Preliminary_Behavior "OnCollision"
+            {
+                rel actions = </Root/Transform/Car/OnCollision/Action>
+                uniform bool exclusive
+                rel triggers = </Root/Transform/Car/OnCollision/Trigger>
+
+                def Preliminary_Trigger "Trigger"
+                {
+                    rel affectedObjects = </Root/Transform/Car>
+                    rel colliders = </Root/Transform/Car>
+                    token info:id = "Collide"
+                }
+
+                def Preliminary_Action "Action"
+                {
+                    rel affectedObjects = </Root>
+                    rel animationLibraryKey = </Root/car_crash>
+                    rel animationLibraryKeyOverrideKey = </Root/Transform/Car/OnCollision/Trigger>
+                    token info:id = "PlayTimeline"
+                    int loops = 0
+                    int performCount = 1
+                    token type = "serial"
                 }
             }
         }
 
-        def RealityKitComponent "RCP_BehaviorsContainer"
+        def "road" (
+            active = true
+            references = @capstone.usdz@
+        )
         {
-            rel behaviors = </Root/car/OnAddedToScene>
-            uniform token info:id = "RCP.BehaviorsContainer"
-        }
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (3.2, 3.2, 4)
+            float3 xformOp:translate = (-14.630221, 1.3046337, 2.319369)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-        def Preliminary_Behavior "OnAddedToScene"
-        {
-            rel actions = </Root/car/OnAddedToScene/Action>
-            uniform bool exclusive
-            rel triggers = </Root/car/OnAddedToScene/Trigger>
-
-            def Preliminary_Trigger "Trigger"
+            over "Geom"
             {
-                rel affectedObjects = </Root/car>
-                token info:id = "SceneTransition"
+                over "Plane_001_Plane_001" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </Root/Transform/road/Materials/crosswalk_material> (
+                        bindMaterialAs = "weakerThanDescendants"
+                    )
+                    float3 xformOp:scale = (0.5, 0.5, 0.5)
+                    float3 xformOp:translate = (4.0962687, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                over "Plane_002_Plane_002" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </Root/Transform/road/Materials/crosswalk_material> (
+                        bindMaterialAs = "weakerThanDescendants"
+                    )
+                    float3 xformOp:scale = (0.5, 0.5, 0.5)
+                    float3 xformOp:translate = (4.0962687, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                over "Plane_003_Plane_003" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </Root/Transform/road/Materials/crosswalk_material> (
+                        bindMaterialAs = "weakerThanDescendants"
+                    )
+                    float3 xformOp:scale = (0.5, 0.5, 0.5)
+                    float3 xformOp:translate = (4.0962687, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                over "Plane_005_Plane_005" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </Root/Transform/road/Materials/crosswalk_material> (
+                        bindMaterialAs = "weakerThanDescendants"
+                    )
+                    float3 xformOp:scale = (0.5, 0.5, 0.5)
+                    float3 xformOp:translate = (4.0962687, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                over "Plane_004_Plane_004" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </Root/Transform/road/Materials/crosswalk_material> (
+                        bindMaterialAs = "weakerThanDescendants"
+                    )
+                    float3 xformOp:scale = (0.5, 0.5, 0.5)
+                    float3 xformOp:translate = (4.0962687, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
+
+                over "Plane_Material_001" (
+                    customData = {
+                        float3 rotationEulerHint = (0, 0, 0)
+                    }
+                )
+                {
+                    quatf xformOp:orient = (1, 0, 0, 0)
+                    float3 xformOp:scale = (0.5, 0.5, 0.5)
+                    float3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
             }
 
-            def Preliminary_Action "Action"
+            over "Materials"
             {
-                rel affectedObjects = </Root>
-                rel animationLibraryKey = </Root/Timeline3>
-                rel animationLibraryKeyOverrideKey = </Root/car/OnAddedToScene/Trigger>
-                token info:id = "PlayTimeline"
-                int loops = 0
-                int performCount = 1
-                token type = "serial"
+                reorder nameChildren = ["Material_001", "crosswalk_material"]
+                over "Material_001"
+                {
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+                }
+
+                def Material "crosswalk_material"
+                {
+                    token outputs:mtlx:surface.connect = </Root/Transform/road/Materials/crosswalk_material/PreviewSurface.outputs:out>
+                    token outputs:realitykit:vertex
+                    float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (335.5, 100.5)
+
+                    def Shader "PreviewSurface"
+                    {
+                        uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
+                        color3f inputs:diffuseColor = (0.999996, 1, 1) (
+                            colorSpace = "srgb_texture"
+                        )
+                        float inputs:roughness = 1
+                        token outputs:out
+                        float2 ui:nodegraph:node:pos = (93.5, 100.5)
+                        int ui:nodegraph:node:stackingOrder = 3
+                    }
+                }
+            }
+        }
+
+        def "Van" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+            customData = {
+                float3 rotationEulerHint = (0, 1.5707963, 0)
+            }
+            references = @Van_updated.usdz@
+        )
+        {
+            rel material:binding = </Root/Transform/Van/Materials/Material_001> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            quatf xformOp:orient = (0.70710677, 0, 0.70710677, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (-16.235554, 1.3077717, 3.377949)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def RealityKitComponent "Collider"
+            {
+                uint group = 1
+                uniform token info:id = "RealityKit.Collider"
+                uint mask = 4294967295
+                token type = "Trigger"
+
+                def RealityKitStruct "Shape"
+                {
+                    float3 extent = (1.5, 1, 4)
+                    token shapeType = "Box"
+
+                    def RealityKitStruct "pose"
+                    {
+                        float3 position = (4.7683716e-7, 0.94554853, 0.0575521)
+                    }
+                }
+            }
+
+            def RealityKitComponent "RigidBody"
+            {
+                bool gravityEnabled = 0
+                uniform token info:id = "RealityKit.RigidBody"
+
+                def RealityKitStruct "massFrame"
+                {
+                    def RealityKitStruct "m_pose"
+                    {
+                    }
+                }
+
+                def RealityKitStruct "material"
+                {
+                }
+            }
+
+            def RealityKitComponent "RCP_BehaviorsContainer"
+            {
+                rel behaviors = [
+                    </Root/Transform/Van/OnAddedToScene>,
+                    </Root/Transform/Van/OnNotification>,
+                    </Root/Transform/Van/OnCollision>,
+                ]
+                uniform token info:id = "RCP.BehaviorsContainer"
+            }
+
+            def Preliminary_Behavior "OnAddedToScene"
+            {
+                rel actions = </Root/Transform/Van/OnAddedToScene/Action>
+                uniform bool exclusive
+                rel triggers = </Root/Transform/Van/OnAddedToScene/Trigger>
+
+                def Preliminary_Trigger "Trigger"
+                {
+                    rel affectedObjects = </Root/Transform/Van>
+                    token info:id = "SceneTransition"
+                }
+
+                def Preliminary_Action "Action"
+                {
+                    rel affectedObjects = </Root>
+                    rel animationLibraryKey = </Root/van_move2>
+                    rel animationLibraryKeyOverrideKey = </Root/Transform/Van/OnAddedToScene/Trigger>
+                    token info:id = "PlayTimeline"
+                    int loops = 0
+                    int performCount = 1
+                    token type = "serial"
+                }
+            }
+
+            over "Materials"
+            {
+                over "Material_001"
+                {
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+
+                    over "surfaceShader"
+                    {
+                        color3f inputs:diffuseColor = (0, 0, 0.50980395) (
+                            colorSpace = "srgb_texture"
+                        )
+                    }
+                }
+
+                over "Wheels"
+                {
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+
+                    over "surfaceShader"
+                    {
+                        color3f inputs:diffuseColor = (1, 1, 1) (
+                            colorSpace = "srgb_texture"
+                        )
+                    }
+                }
+
+                over "tires_"
+                {
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+
+                    over "surfaceShader"
+                    {
+                        color3f inputs:diffuseColor = (0, 0, 0) (
+                            colorSpace = "srgb_texture"
+                        )
+                    }
+                }
+
+                over "Glasses"
+                {
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+
+                    over "surfaceShader"
+                    {
+                        color3f inputs:diffuseColor = (0.24514678, 0.24514678, 0.24514678) (
+                            colorSpace = "srgb_texture"
+                        )
+                    }
+                }
+
+                over "_3_Bumpers_exaust"
+                {
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+
+                    over "surfaceShader"
+                    {
+                        color3f inputs:diffuseColor = (0, 0, 0) (
+                            colorSpace = "srgb_texture"
+                        )
+                    }
+                }
+
+                over "_2_Body_extension"
+                {
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+
+                    over "surfaceShader"
+                    {
+                        color3f inputs:diffuseColor = (0.06149821, 0.06149821, 0.06149821) (
+                            colorSpace = "srgb_texture"
+                        )
+                    }
+                }
+            }
+
+            def Preliminary_Behavior "OnNotification"
+            {
+                rel actions = </Root/Transform/Van/OnNotification/Action>
+                uniform bool exclusive
+                rel triggers = </Root/Transform/Van/OnNotification/Trigger>
+
+                def Preliminary_Trigger "Trigger"
+                {
+                    rel affectedObjects = </Root/Transform/Van>
+                    string identifier = "notifier"
+                    token info:id = "Notification"
+                }
+
+                def Preliminary_Action "Action"
+                {
+                    rel affectedObjects = </Root>
+                    rel animationLibraryKey = </Root/van_crash>
+                    rel animationLibraryKeyOverrideKey = </Root/Transform/Van/OnNotification/Trigger>
+                    token info:id = "PlayTimeline"
+                    int loops = 0
+                    int performCount = 1
+                    token type = "serial"
+                }
+            }
+
+            def Preliminary_Behavior "OnCollision"
+            {
+                rel actions = </Root/Transform/Van/OnCollision/Action>
+                uniform bool exclusive
+                rel triggers = </Root/Transform/Van/OnCollision/Trigger>
+
+                def Preliminary_Trigger "Trigger"
+                {
+                    rel affectedObjects = </Root/Transform/Van>
+                    rel colliders = </Root/Transform/Van>
+                    token info:id = "Collide"
+                }
+
+                def Preliminary_Action "Action"
+                {
+                    rel affectedObjects = </Root>
+                    rel animationLibraryKey = </Root/van_crash>
+                    rel animationLibraryKeyOverrideKey = </Root/Transform/Van/OnCollision/Trigger>
+                    token info:id = "PlayTimeline"
+                    int loops = 0
+                    int performCount = 1
+                    token type = "serial"
+                }
+            }
+        }
+
+        def "traffic_signal" (
+            active = true
+            customData = {
+                float3 rotationEulerHint = (0, 1.5707963, 0)
+            }
+            references = @traffic_signal.usdz@
+        )
+        {
+            quatf xformOp:orient = (0.70710677, 0, 0.70710677, 0)
+            float3 xformOp:scale = (0.8, 0.8, 0.8)
+            float3 xformOp:translate = (2.8862102, 1.335854, 0.09374452)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            over "Materials"
+            {
+                over "guidepost3"
+                {
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+                }
+
+                over "guidepost1"
+                {
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+                }
+
+                over "Atlas_052"
+                {
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+
+                    over "surfaceShader"
+                    {
+                        color3f inputs:diffuseColor = (0.21163236, 0.21163236, 0.21163236) (
+                            colorSpace = "srgb_texture"
+                        )
+                    }
+                }
+
+                over "guidepost4"
+                {
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+                }
+            }
+
+            over "Geom"
+            {
+                over "guidepost1" (
+                    active = false
+                )
+                {
+                }
+
+                over "guidepost1_2" (
+                    active = false
+                )
+                {
+                }
+
+                over "guidepost2" (
+                    active = false
+                )
+                {
+                }
+
+                over "guidepost3" (
+                    active = false
+                )
+                {
+                }
+            }
+        }
+
+        def RealityKitComponent "Anchoring" (
+            active = false
+        )
+        {
+            uniform token info:id = "RealityKit.Anchoring"
+
+            def RealityKitStruct "descriptor"
+            {
+            }
+        }
+    }
+
+    def RealityKitTimeline "van_move"
+    {
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Add_Force"
+            {
+                string actionKind = "impulse"
+                double duration = 0
+                float3 impulse = (2, 0, 0)
+                uniform token info:id = "310B7E56-38B2-468B-BC89-7BE8FB42BA69"
+                double startTime = 0
+                rel target = </Root/Transform/Van>
+            }
+        }
+    }
+
+    def RealityKitTimeline "van_move2"
+    {
+        def RealityKitTrack "Track"
+        {
+            reorder nameChildren = ["StopAtLight", "StartFromLight"]
+            def RealityKitAction "StopAtLight"
+            {
+                string actionKind = "moveTo"
+                int blendLayer = 300
+                double duration = 8
+                uniform token info:id = "7C866021-9065-41BD-BA32-09CAF87CDCAE"
+                float3 position = (0.6091702, 1.3077716, 3.3658829)
+                quatf rotation = (0.70710677, 0, 0.7071067, 0)
+                float3 scale = (1, 1, 1)
+                double startTime = 0
+                rel target = </Root/Transform/Van>
+
+                def RealityKitStruct "transformMode"
+                {
+                    rel referenceEntity = </Root>
+                    token type = "relative"
+                }
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "easeOut"
+                }
+            }
+
+            def RealityKitAction "StartFromLight"
+            {
+                string actionKind = "moveTo"
+                int blendLayer = 300
+                double duration = 10
+                uniform token info:id = "AFEEF4E3-DBE5-49E6-BA4E-8F9F8DF617A1"
+                float3 position = (16.606182, 1.3077716, 3.4143467)
+                quatf rotation = (0.70710677, 0, 0.7071067, 0)
+                float3 scale = (1, 1, 1)
+                double startTime = 13
+                rel target = </Root/Transform/Van>
+
+                def RealityKitStruct "transformMode"
+                {
+                    rel referenceEntity = </Root>
+                    token type = "relative"
+                }
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "easeInOut"
+                }
+            }
+        }
+    }
+
+    def RealityKitTimeline "car_crash" (
+        references = None
+    )
+    {
+        reorder nameChildren = ["Track2", "Track"]
+        bool isActive = 1
+        float2 ui:nodegraph:node:pos = (317.5, 104.5)
+        int ui:nodegraph:node:stackingOrder = 1
+
+        def RealityKitTrack "Track2"
+        {
+            def RealityKitAction "Transform_To"
+            {
+                string actionKind = "moveTo"
+                int blendLayer = 300
+                double duration = 2.2952203215667315
+                uniform token info:id = "DD9EC0A9-00AB-4B94-B954-443FF9AD46BE"
+                float3 position = (26.451035, 1.3192973, 1.350033)
+                quatf rotation = (0.7071067, 0, 0.7071068, 0)
+                float3 scale = (0.84948575, 0.84948575, 0.84948575)
+                double startTime = 0
+                rel target = </Root/Transform/Car>
+
+                def RealityKitStruct "transformMode"
+                {
+                    rel referenceEntity = </Root>
+                    token type = "parent"
+                }
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "default"
+                }
+            }
+        }
+    }
+
+    def RealityKitTimeline "car_move2"
+    {
+        def RealityKitTrack "Track2"
+        {
+            def RealityKitAction "StopAtLight"
+            {
+                string actionKind = "moveTo"
+                int blendLayer = 300
+                double duration = 8
+                uniform token info:id = "509F328E-78FE-4ABA-B4F8-EDD4EB6BE605"
+                float3 position = (5.837161, 1.3192973, 1.2935266)
+                quatf rotation = (0.7071067, 0, 0.7071068, 0)
+                float3 scale = (0.84948575, 0.84948575, 0.84948575)
+                double startTime = 0
+                rel target = </Root/Transform/Car>
+
+                def RealityKitStruct "transformMode"
+                {
+                    rel referenceEntity = </Root>
+                    token type = "relative"
+                }
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "easeOut"
+                }
+            }
+
+            def RealityKitAction "Transform_To"
+            {
+                string actionKind = "moveTo"
+                int blendLayer = 300
+                double duration = 10
+                uniform token info:id = "E3595920-ACAC-4F9F-B7F9-B207E17E7CFC"
+                float3 position = (-17.795921, 1.3192973, 1.2969344)
+                quatf rotation = (0.7071067, 0, 0.7071068, 0)
+                float3 scale = (0.84948575, 0.84948575, 0.84948575)
+                double startTime = 13
+                rel target = </Root/Transform/Car>
+
+                def RealityKitStruct "transformMode"
+                {
+                    rel referenceEntity = </Root>
+                    token type = "relative"
+                }
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "easeInOut"
+                }
             }
         }
     }
