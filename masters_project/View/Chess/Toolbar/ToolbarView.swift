@@ -126,3 +126,9 @@ private extension ToolbarView {
     }
     private static let circleButtonSize = 40.0
 }
+
+/*Preview on simulator*/
+//Requires Editor > Canvas
+//#Preview {
+//    ToolbarView(targetScene: TargetScene.volume, position: ToolbarPosition.foreground, model: arg, openImmersiveSpace: arg, dismissImmersiveSpace: <#T##arg#>, openWindow: <#T##arg#>, dismissWindow: <#T##arg#>, physicalMetrics: arg)
+//}

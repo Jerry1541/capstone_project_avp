@@ -1,11 +1,13 @@
 import SwiftUI
 import RealityKit
+import ARKit
 
 struct VolumeView: View {
     @EnvironmentObject var model: AppModel
     @Environment(\.physicalMetrics) var physicalMetrics
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
     @Environment(\.dismissWindow) var dismissWindow
+    
     var body: some View {
         VStack(spacing: 12) {
             if self.showSharePlayMenu {
@@ -14,7 +16,9 @@ struct VolumeView: View {
             }
             Spacer()
             Arena()
-            ToolbarsView(targetScene: .volume)
+            if(model.groupSession?.localParticipant == model.groupSession?.activeParticipants.first){
+                ToolbarsView(targetScene: .volume)
+            }
         }
         .frame(width: self.boardSize, height: self.boardSize)
         .frame(depth: self.boardSize)

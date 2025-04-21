@@ -4,12 +4,22 @@ struct FullSpaceView: View {
     @EnvironmentObject var model: AppModel
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
     @Environment(\.openWindow) var openWindow
+    
     var body: some View {
+        
         VStack(spacing: 12) {
             Arena()
-            if !self.model.floorMode { ToolbarsView(targetScene: .fullSpace) }
+            if(model.groupSession?.localParticipant == model.groupSession?.activeParticipants.first){
+                ToolbarsView(targetScene: .fullSpace)
+            }
+            // if !self.model.floorMode { ToolbarsView(targetScene: .fullSpace) }
         }
-        .overlay { ToolbarViewForFloorMode() }
+        .overlay {
+            if(model.groupSession?.localParticipant == model.groupSession?.activeParticipants.first){
+                ToolbarViewForFloorMode()
+            }
+            // ToolbarViewForFloorMode()
+        }
         .scaleEffect(self.model.activityState.viewScale, anchor: .bottom)
         .offset(z: self.model.spatialSharePlaying == true ? 0 : -1200)
         .offset(y: -self.model.activityState.viewHeight)

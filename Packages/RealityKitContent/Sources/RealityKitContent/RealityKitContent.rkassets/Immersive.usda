@@ -10,7 +10,7 @@
 
 def Xform "Root"
 {
-    reorder nameChildren = ["road", "AudioMixGroups", "AnimationLibrary", "Anchoring", "car1", "Transform", "van_crash", "car_crash", "van_move2", "car_move2", "car_move", "van_move", "Timeline", "Timeline2"]
+    reorder nameChildren = ["road", "AudioMixGroups", "AnimationLibrary", "Anchoring", "car1", "Transform", "van_crash", "car_crash", "van_move2", "car_move2", "car_move", "van_move", "Timeline", "Timeline2", "Red_light", "Green_light", "Walk_now", "Dont_walk_now", "Pause_Van", "Resume_Van", "Reset", "Pause_Car", "Resume_Car"]
     float3 xformOp:translate = (-4.246743, -2.2921462, -3.996029)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
@@ -145,7 +145,7 @@ def Xform "Root"
         active = true
     )
     {
-        reorder nameChildren = ["Car", "road", "Van", "traffic_signal"]
+        reorder nameChildren = ["crosswalk_timer_2", "Car", "road", "Van", "traffic_signal", "crosswalk_timer", "Anchoring"]
         def "Car" (
             active = true
             customData = {
@@ -210,6 +210,9 @@ def Xform "Root"
                     </Root/Transform/Car/OnAddedToScene>,
                     </Root/Transform/Car/OnNotification>,
                     </Root/Transform/Car/OnCollision>,
+                    </Root/Transform/Car/OnNotification2>,
+                    </Root/Transform/Car/OnNotification3>,
+                    </Root/Transform/Car/OnNotification4>,
                 ]
                 uniform token info:id = "RCP.BehaviorsContainer"
             }
@@ -256,7 +259,7 @@ def Xform "Root"
                 def Preliminary_Trigger "Trigger"
                 {
                     rel affectedObjects = </Root/Transform/Car>
-                    string identifier = "notifier"
+                    string identifier = "collision"
                     token info:id = "Notification"
                 }
 
@@ -296,6 +299,86 @@ def Xform "Root"
                     token type = "serial"
                 }
             }
+
+            def RealityKitComponent "InputTarget"
+            {
+                uniform token info:id = "RealityKit.InputTarget"
+            }
+
+            def Preliminary_Behavior "OnNotification2"
+            {
+                rel actions = </Root/Transform/Car/OnNotification2/Action>
+                uniform bool exclusive
+                rel triggers = </Root/Transform/Car/OnNotification2/Trigger>
+
+                def Preliminary_Trigger "Trigger"
+                {
+                    rel affectedObjects = </Root/Transform/Car>
+                    string identifier = "pause"
+                    token info:id = "Notification"
+                }
+
+                def Preliminary_Action "Action"
+                {
+                    rel affectedObjects = </Root>
+                    rel animationLibraryKey = </Root/Pause_Car>
+                    rel animationLibraryKeyOverrideKey = </Root/Transform/Car/OnNotification2/Trigger>
+                    token info:id = "PlayTimeline"
+                    int loops = 0
+                    int performCount = 1
+                    token type = "serial"
+                }
+            }
+
+            def Preliminary_Behavior "OnNotification3"
+            {
+                rel actions = </Root/Transform/Car/OnNotification3/Action>
+                uniform bool exclusive
+                rel triggers = </Root/Transform/Car/OnNotification3/Trigger>
+
+                def Preliminary_Trigger "Trigger"
+                {
+                    rel affectedObjects = </Root/Transform/Car>
+                    string identifier = "resume"
+                    token info:id = "Notification"
+                }
+
+                def Preliminary_Action "Action"
+                {
+                    rel affectedObjects = </Root>
+                    rel animationLibraryKey = </Root/Resume_Car>
+                    rel animationLibraryKeyOverrideKey = </Root/Transform/Car/OnNotification3/Trigger>
+                    token info:id = "PlayTimeline"
+                    int loops = 0
+                    int performCount = 1
+                    token type = "serial"
+                }
+            }
+
+            def Preliminary_Behavior "OnNotification4"
+            {
+                rel actions = </Root/Transform/Car/OnNotification4/Action>
+                uniform bool exclusive
+                rel triggers = </Root/Transform/Car/OnNotification4/Trigger>
+
+                def Preliminary_Trigger "Trigger"
+                {
+                    rel affectedObjects = </Root/Transform/Car>
+                    string identifier = "reset"
+                    token info:id = "Notification"
+                }
+
+                def Preliminary_Action "Action"
+                {
+                    rel affectedObjects = </Root>
+                    rel animationLibraryKey = </Root/Reset>
+                    rel animationLibraryKeyOverrideKey = </Root/Transform/Car/OnNotification4/Trigger>
+                    token info:id = "PlayTimeline"
+                    int loops = 0
+                    int performCount = 1
+                    token type = "serial"
+                }
+            }
         }
 
         def "road" (
@@ -318,7 +401,7 @@ def Xform "Root"
                         bindMaterialAs = "weakerThanDescendants"
                     )
                     float3 xformOp:scale = (0.5, 0.5, 0.5)
-                    float3 xformOp:translate = (4.0962687, 0, 0)
+                    float3 xformOp:translate = (4.0962687, 0.0013900697, 0)
                     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
                 }
 
@@ -330,7 +413,7 @@ def Xform "Root"
                         bindMaterialAs = "weakerThanDescendants"
                     )
                     float3 xformOp:scale = (0.5, 0.5, 0.5)
-                    float3 xformOp:translate = (4.0962687, 0, 0)
+                    float3 xformOp:translate = (4.0962687, 0.0013900697, 0)
                     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
                 }
 
@@ -342,7 +425,7 @@ def Xform "Root"
                         bindMaterialAs = "weakerThanDescendants"
                     )
                     float3 xformOp:scale = (0.5, 0.5, 0.5)
-                    float3 xformOp:translate = (4.0962687, 0, 0)
+                    float3 xformOp:translate = (4.0962687, 0.0013900697, 0)
                     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
                 }
 
@@ -354,7 +437,7 @@ def Xform "Root"
                         bindMaterialAs = "weakerThanDescendants"
                     )
                     float3 xformOp:scale = (0.5, 0.5, 0.5)
-                    float3 xformOp:translate = (4.0962687, 0, 0)
+                    float3 xformOp:translate = (4.0962687, 0.0013900697, 0)
                     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
                 }
 
@@ -366,7 +449,7 @@ def Xform "Root"
                         bindMaterialAs = "weakerThanDescendants"
                     )
                     float3 xformOp:scale = (0.5, 0.5, 0.5)
-                    float3 xformOp:translate = (4.0962687, 0, 0)
+                    float3 xformOp:translate = (4.0962687, 0.0013900697, 0)
                     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
                 }
 
@@ -390,6 +473,7 @@ def Xform "Root"
                 {
                     token outputs:mtlx:surface
                     token outputs:realitykit:vertex
+                    float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (0, 110.5)
                 }
 
                 def Material "crosswalk_material"
@@ -439,7 +523,7 @@ def Xform "Root"
 
                 def RealityKitStruct "Shape"
                 {
-                    float3 extent = (1.5, 1, 4)
+                    float3 extent = (1.5, 1.5, 4)
                     token shapeType = "Box"
 
                     def RealityKitStruct "pose"
@@ -472,6 +556,9 @@ def Xform "Root"
                     </Root/Transform/Van/OnAddedToScene>,
                     </Root/Transform/Van/OnNotification>,
                     </Root/Transform/Van/OnCollision>,
+                    </Root/Transform/Van/OnNotification2>,
+                    </Root/Transform/Van/OnNotification3>,
+                    </Root/Transform/Van/OnNotification4>,
                 ]
                 uniform token info:id = "RCP.BehaviorsContainer"
             }
@@ -590,7 +677,7 @@ def Xform "Root"
                 def Preliminary_Trigger "Trigger"
                 {
                     rel affectedObjects = </Root/Transform/Van>
-                    string identifier = "notifier"
+                    string identifier = "collision"
                     token info:id = "Notification"
                 }
 
@@ -630,6 +717,86 @@ def Xform "Root"
                     token type = "serial"
                 }
             }
+
+            def RealityKitComponent "InputTarget"
+            {
+                uniform token info:id = "RealityKit.InputTarget"
+            }
+
+            def Preliminary_Behavior "OnNotification2"
+            {
+                rel actions = </Root/Transform/Van/OnNotification2/Action>
+                uniform bool exclusive
+                rel triggers = </Root/Transform/Van/OnNotification2/Trigger>
+
+                def Preliminary_Trigger "Trigger"
+                {
+                    rel affectedObjects = </Root/Transform/Van>
+                    string identifier = "pause"
+                    token info:id = "Notification"
+                }
+
+                def Preliminary_Action "Action"
+                {
+                    rel affectedObjects = </Root>
+                    rel animationLibraryKey = </Root/Pause_Van>
+                    rel animationLibraryKeyOverrideKey = </Root/Transform/Van/OnNotification2/Trigger>
+                    token info:id = "PlayTimeline"
+                    int loops = 0
+                    int performCount = 1
+                    token type = "serial"
+                }
+            }
+
+            def Preliminary_Behavior "OnNotification3"
+            {
+                rel actions = </Root/Transform/Van/OnNotification3/Action>
+                uniform bool exclusive
+                rel triggers = </Root/Transform/Van/OnNotification3/Trigger>
+
+                def Preliminary_Trigger "Trigger"
+                {
+                    rel affectedObjects = </Root/Transform/Van>
+                    string identifier = "resume"
+                    token info:id = "Notification"
+                }
+
+                def Preliminary_Action "Action"
+                {
+                    rel affectedObjects = </Root>
+                    rel animationLibraryKey = </Root/Resume_Van>
+                    rel animationLibraryKeyOverrideKey = </Root/Transform/Van/OnNotification3/Trigger>
+                    token info:id = "PlayTimeline"
+                    int loops = 0
+                    int performCount = 1
+                    token type = "serial"
+                }
+            }
+
+            def Preliminary_Behavior "OnNotification4"
+            {
+                rel actions = </Root/Transform/Van/OnNotification4/Action>
+                uniform bool exclusive
+                rel triggers = </Root/Transform/Van/OnNotification4/Trigger>
+
+                def Preliminary_Trigger "Trigger"
+                {
+                    rel affectedObjects = </Root/Transform/Van>
+                    string identifier = "reset"
+                    token info:id = "Notification"
+                }
+
+                def Preliminary_Action "Action"
+                {
+                    rel affectedObjects = </Root>
+                    rel animationLibraryKey = </Root/Reset>
+                    rel animationLibraryKeyOverrideKey = </Root/Transform/Van/OnNotification4/Trigger>
+                    token info:id = "PlayTimeline"
+                    int loops = 0
+                    int performCount = 1
+                    token type = "serial"
+                }
+            }
         }
 
         def "traffic_signal" (
@@ -640,6 +807,7 @@ def Xform "Root"
             references = @traffic_signal.usdz@
         )
         {
+            reorder nameChildren = ["Dont_Walk_sign", "Walk_sign", "Red", "Green", "Materials", "Geom"]
             quatf xformOp:orient = (0.70710677, 0, 0.70710677, 0)
             float3 xformOp:scale = (0.8, 0.8, 0.8)
             float3 xformOp:translate = (2.8862102, 1.335854, 0.09374452)
@@ -705,6 +873,224 @@ def Xform "Root"
                 {
                 }
             }
+
+            def Sphere "Red" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Transform/traffic_signal/Red/DefaultMaterial>
+                double radius = 0.1
+                quatf xformOp:orient = (0.7071067, 0, -0.70710677, 0)
+                float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+                float3 xformOp:translate = (-3.7576876, 4.0900717, 0.040060166)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Material "DefaultMaterial"
+                {
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+                    token outputs:surface.connect = </Root/Transform/traffic_signal/Red/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+
+                    def Shader "DefaultSurfaceShader"
+                    {
+                        uniform token info:id = "UsdPreviewSurface"
+                        color3f inputs:diffuseColor = (1, 0.10258614, 0) (
+                            colorSpace = "srgb_texture"
+                        )
+                        float inputs:roughness = 0.75
+                        token outputs:surface
+                    }
+                }
+
+                def RealityKitComponent "RCP_BehaviorsContainer"
+                {
+                    rel behaviors = </Root/Transform/traffic_signal/Red/OnAddedToScene>
+                    uniform token info:id = "RCP.BehaviorsContainer"
+                }
+
+                def Preliminary_Behavior "OnAddedToScene"
+                {
+                    rel actions = </Root/Transform/traffic_signal/Red/OnAddedToScene/Action>
+                    uniform bool exclusive
+                    rel triggers = </Root/Transform/traffic_signal/Red/OnAddedToScene/Trigger>
+
+                    def Preliminary_Trigger "Trigger"
+                    {
+                        rel affectedObjects = </Root/Transform/traffic_signal/Red>
+                        token info:id = "SceneTransition"
+                    }
+
+                    def Preliminary_Action "Action"
+                    {
+                        rel affectedObjects = </Root>
+                        rel animationLibraryKey = </Root/Red_light>
+                        rel animationLibraryKeyOverrideKey = </Root/Transform/traffic_signal/Red/OnAddedToScene/Trigger>
+                        token info:id = "PlayTimeline"
+                        int loops = 0
+                        int performCount = 1
+                        token type = "serial"
+                    }
+                }
+            }
+
+            def Sphere "Green" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Transform/traffic_signal/Green/DefaultMaterial>
+                double radius = 0.1
+                float2 ui:nodegraph:node:pos = (20, 20)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (0.7071067, 0, -0.70710677, 0)
+                float3 xformOp:scale = (0.9999998, 0.9999998, 0.9999998)
+                float3 xformOp:translate = (-3.7576876, 3.5082843, 0.04005981)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Material "DefaultMaterial"
+                {
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+                    token outputs:surface.connect = </Root/Transform/traffic_signal/Green/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+
+                    def Shader "DefaultSurfaceShader"
+                    {
+                        uniform token info:id = "UsdPreviewSurface"
+                        color3f inputs:diffuseColor = (0.08643005, 1, 0) (
+                            colorSpace = "srgb_texture"
+                        )
+                        float inputs:roughness = 0.75
+                        token outputs:surface
+                    }
+                }
+
+                def RealityKitComponent "RCP_BehaviorsContainer"
+                {
+                    rel behaviors = </Root/Transform/traffic_signal/Green/OnAddedToScene>
+                    uniform token info:id = "RCP.BehaviorsContainer"
+                }
+
+                def Preliminary_Behavior "OnAddedToScene"
+                {
+                    rel actions = </Root/Transform/traffic_signal/Green/OnAddedToScene/Action>
+                    uniform bool exclusive
+                    rel triggers = </Root/Transform/traffic_signal/Green/OnAddedToScene/Trigger>
+
+                    def Preliminary_Trigger "Trigger"
+                    {
+                        rel affectedObjects = </Root/Transform/traffic_signal/Green>
+                        token info:id = "SceneTransition"
+                    }
+
+                    def Preliminary_Action "Action"
+                    {
+                        rel affectedObjects = </Root>
+                        rel animationLibraryKey = </Root/Green_light>
+                        rel animationLibraryKeyOverrideKey = </Root/Transform/traffic_signal/Green/OnAddedToScene/Trigger>
+                        token info:id = "PlayTimeline"
+                        int loops = 0
+                        int performCount = 1
+                        token type = "serial"
+                    }
+                }
+            }
+
+            def "Walk_sign" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                references = @Walk_sign.usdz@
+            )
+            {
+                reorder nameChildren = ["Dont_Walk_sign", "Geom", "Materials"]
+                rel material:binding = None (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                quatf xformOp:orient = (0.70710677, 0, -0.70710677, 0)
+                float3 xformOp:scale = (0.25, 0.25, 0.25)
+                float3 xformOp:translate = (-0.018497946, 3.125415, 0.43122807)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def RealityKitComponent "RCP_BehaviorsContainer"
+                {
+                    rel behaviors = </Root/Transform/traffic_signal/Walk_sign/OnAddedToScene>
+                    uniform token info:id = "RCP.BehaviorsContainer"
+                }
+
+                def Preliminary_Behavior "OnAddedToScene"
+                {
+                    rel actions = </Root/Transform/traffic_signal/Walk_sign/OnAddedToScene/Action>
+                    uniform bool exclusive
+                    rel triggers = </Root/Transform/traffic_signal/Walk_sign/OnAddedToScene/Trigger>
+
+                    def Preliminary_Trigger "Trigger"
+                    {
+                        rel affectedObjects = </Root/Transform/traffic_signal/Walk_sign>
+                        token info:id = "SceneTransition"
+                    }
+
+                    def Preliminary_Action "Action"
+                    {
+                        rel affectedObjects = </Root>
+                        rel animationLibraryKey = </Root/Walk_now>
+                        rel animationLibraryKeyOverrideKey = </Root/Transform/traffic_signal/Walk_sign/OnAddedToScene/Trigger>
+                        token info:id = "PlayTimeline"
+                        int loops = 0
+                        int performCount = 1
+                        token type = "serial"
+                    }
+                }
+
+                over "Materials"
+                {
+                    over "defaultMaterial"
+                    {
+                        token outputs:mtlx:surface
+                        token outputs:realitykit:vertex
+                    }
+                }
+            }
+
+            def "Dont_Walk_sign" (
+                active = true
+                references = @Dont_Walk_sign.usdz@
+            )
+            {
+                quatf xformOp:orient = (0.70710677, 0, -0.70710677, 0)
+                float3 xformOp:scale = (0.25, 0.25, 0.25)
+                float3 xformOp:translate = (-0.020021917, 3.1250002, 0.13576664)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def RealityKitComponent "RCP_BehaviorsContainer"
+                {
+                    rel behaviors = </Root/Transform/traffic_signal/Dont_Walk_sign/OnAddedToScene>
+                    uniform token info:id = "RCP.BehaviorsContainer"
+                }
+
+                def Preliminary_Behavior "OnAddedToScene"
+                {
+                    rel actions = </Root/Transform/traffic_signal/Dont_Walk_sign/OnAddedToScene/Action>
+                    uniform bool exclusive
+                    rel triggers = </Root/Transform/traffic_signal/Dont_Walk_sign/OnAddedToScene/Trigger>
+
+                    def Preliminary_Trigger "Trigger"
+                    {
+                        rel affectedObjects = </Root/Transform/traffic_signal/Dont_Walk_sign>
+                        token info:id = "SceneTransition"
+                    }
+
+                    def Preliminary_Action "Action"
+                    {
+                        rel affectedObjects = </Root>
+                        rel animationLibraryKey = </Root/Dont_walk_now>
+                        rel animationLibraryKeyOverrideKey = </Root/Transform/traffic_signal/Dont_Walk_sign/OnAddedToScene/Trigger>
+                        token info:id = "PlayTimeline"
+                        int loops = 0
+                        int performCount = 1
+                        token type = "serial"
+                    }
+                }
+            }
         }
 
         def RealityKitComponent "Anchoring" (
@@ -715,6 +1101,40 @@ def Xform "Root"
 
             def RealityKitStruct "descriptor"
             {
+            }
+        }
+
+        def "crosswalk_timer" (
+            active = true
+            references = @crosswalk_timer.usdz@
+        )
+        {
+            quatf xformOp:orient = (1, 0, 4.2490377e-8, 0)
+            float3 xformOp:scale = (0.5, 0.5, 0.5)
+            float3 xformOp:translate = (3.1260123, 2.2857084, -0.03503847)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def RealityKitComponent "AnimationLibrary"
+            {
+                uniform token info:id = "RealityKit.AnimationLibrary"
+            }
+
+            over "Materials"
+            {
+                over "defaultMaterial"
+                {
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+                }
+            }
+
+            over "Geom"
+            {
+                over "Plane"
+                {
+                    float3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+                }
             }
         }
     }
@@ -737,6 +1157,7 @@ def Xform "Root"
 
     def RealityKitTimeline "van_move2"
     {
+        reorder nameChildren = ["Track", "Track2"]
         def RealityKitTrack "Track"
         {
             reorder nameChildren = ["StopAtLight", "StartFromLight"]
@@ -787,6 +1208,10 @@ def Xform "Root"
                     token type = "easeInOut"
                 }
             }
+        }
+
+        def RealityKitTrack "Track2"
+        {
         }
     }
 
@@ -877,6 +1302,201 @@ def Xform "Root"
                 {
                     token type = "easeInOut"
                 }
+            }
+        }
+    }
+
+    def RealityKitTimeline "Red_light"
+    {
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Enable_Entity"
+            {
+                string actionKind = "enable"
+                double duration = 0
+                uniform token info:id = "15B58FA2-78A0-497E-A725-4CB584CDDFC3"
+                double startTime = 0
+                rel target = </Root/Transform/traffic_signal/Red>
+            }
+
+            def RealityKitAction "Disable_Entity"
+            {
+                string actionKind = "disable"
+                uniform token info:id = "9F845470-381A-4695-8077-0AD99F17D8F6"
+                double startTime = 12.5
+                rel target = </Root/Transform/traffic_signal/Red>
+            }
+        }
+    }
+
+    def RealityKitTimeline "Green_light"
+    {
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Enable_Entity"
+            {
+                string actionKind = "enable"
+                uniform token info:id = "CBBE5B3A-DFBE-4AA4-BCDA-6DBBAC2BC3D0"
+                double startTime = 12.5
+                rel target = </Root/Transform/traffic_signal/Green>
+            }
+
+            def RealityKitAction "Disable_Entity"
+            {
+                string actionKind = "disable"
+                double duration = 0
+                uniform token info:id = "F2F617D4-2B47-4A9E-8536-CA0045895201"
+                double startTime = 0
+                rel target = </Root/Transform/traffic_signal/Green>
+            }
+        }
+    }
+
+    def RealityKitTimeline "Walk_now"
+    {
+        reorder nameChildren = ["Track2", "Track"]
+        def RealityKitTrack "Track2"
+        {
+            def RealityKitAction "Enable_Entity"
+            {
+                string actionKind = "enable"
+                uniform token info:id = "E4BAE071-C13D-4F7F-B4A6-102F1844B7A1"
+                double startTime = 0
+                rel target = </Root/Transform/traffic_signal/Walk_sign>
+            }
+
+            def RealityKitAction "Disable_Entity2"
+            {
+                string actionKind = "disable"
+                uniform token info:id = "94EB02FA-9D96-4877-B4D3-B0F8DB761EFF"
+                double startTime = 8.5
+                rel target = </Root/Transform/traffic_signal/Walk_sign>
+            }
+
+            def RealityKitAction "Enable_Entity2"
+            {
+                string actionKind = "enable"
+                uniform token info:id = "E38331BA-3CE2-4E5E-823B-7EFC54A4C334"
+                double startTime = 9.4995356055012
+                rel target = </Root/Transform/traffic_signal/Walk_sign>
+            }
+
+            def RealityKitAction "Disable_Entity3"
+            {
+                string actionKind = "disable"
+                double duration = 0
+                uniform token info:id = "46989A1A-3162-4973-86B8-BDFCCB6E33FC"
+                double startTime = 10.5
+                rel target = </Root/Transform/traffic_signal/Walk_sign>
+            }
+
+            def RealityKitAction "Enable_Entity22"
+            {
+                string actionKind = "enable"
+                double duration = 0
+                uniform token info:id = "E38331BA-3CE2-4E5E-823B-7EFC54A4C334"
+                double startTime = 7.5
+                rel target = </Root/Transform/traffic_signal/Walk_sign>
+                float2 ui:nodegraph:node:pos = (20, 20)
+                int ui:nodegraph:node:stackingOrder = 1
+            }
+
+            def RealityKitAction "Disable_Entity22"
+            {
+                string actionKind = "disable"
+                double duration = 0
+                uniform token info:id = "94EB02FA-9D96-4877-B4D3-B0F8DB761EFF"
+                double startTime = 6.5
+                rel target = </Root/Transform/traffic_signal/Walk_sign>
+                float2 ui:nodegraph:node:pos = (20, 20)
+                int ui:nodegraph:node:stackingOrder = 1
+            }
+        }
+    }
+
+    def RealityKitTimeline "Dont_walk_now"
+    {
+        reorder nameChildren = ["Track", "Track2"]
+        def RealityKitTrack "Track2"
+        {
+            def RealityKitAction "Disable_Entity"
+            {
+                string actionKind = "disable"
+                uniform token info:id = "511758C5-10DA-48B6-822E-775D5E539949"
+                double startTime = 0
+                rel target = </Root/Transform/traffic_signal/Dont_Walk_sign>
+            }
+
+            def RealityKitAction "Enable_Entity"
+            {
+                string actionKind = "enable"
+                uniform token info:id = "6EE4AD9B-F011-451F-978C-6BD3A38C3787"
+                double startTime = 10.5
+                rel target = </Root/Transform/traffic_signal/Dont_Walk_sign>
+            }
+        }
+    }
+
+    def RealityKitTimeline "Pause_Van"
+    {
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Disable_Entity"
+            {
+                string actionKind = "disable"
+                uniform token info:id = "D046C373-4552-4557-9D93-AA1308356A2D"
+                double startTime = 0
+                rel target = </Root/Transform/Van>
+            }
+        }
+    }
+
+    def RealityKitTimeline "Resume_Van"
+    {
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Enable_Entity"
+            {
+                string actionKind = "enable"
+                uniform token info:id = "26F79B96-F7B0-4427-95CC-60FB1C59BCDE"
+                double startTime = 0
+                rel target = </Root/Transform/Van>
+            }
+        }
+    }
+
+    def RealityKitTimeline "Reset"
+    {
+        def RealityKitTrack "Track"
+        {
+        }
+    }
+
+    def RealityKitTimeline "Pause_Car"
+    {
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Disable_Entity"
+            {
+                string actionKind = "disable"
+                uniform token info:id = "18136C7C-A018-4BC7-BFFA-F2D89326483B"
+                double startTime = 0
+                rel target = </Root/Transform/Car>
+            }
+        }
+    }
+
+    def RealityKitTimeline "Resume_Car"
+    {
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Enable_Entity"
+            {
+                string actionKind = "enable"
+                double duration = 0
+                uniform token info:id = "BFC41EDD-0B17-425A-8525-2B2F19A12649"
+                double startTime = 0
+                rel target = </Root/Transform/Car>
             }
         }
     }

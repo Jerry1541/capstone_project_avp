@@ -19,19 +19,17 @@
 			</array>
 		</dict>
 	</dict>
-    <key>UIRequiredDeviceCapabilities</key>
-    <array>
-        <string>arkit</string>
-    </array>
-    <key>Privacy - Camera Usage Description</key>
-    <string>App requires access to the camera for AR experience.</string>
-    <key>NSWorldSensingUsageDescription</key>
-    <string>This app needs access to AR features for image tracking.</string>
-
-    <key>NSHandsTrackingUsageDescription</key>
-    <string>This app needs access to hand tracking for interaction.</string>
-
-    <key>NSEnterpriseMCAMUsageDescription</key>
-    <string>This app requires access to the camera for AR features.</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>arkit</string>
+	</array>
+	<key>Privacy - Camera Usage Description</key>
+	<string>App requires access to the camera for AR experience.</string>
+	<key>NSWorldSensingUsageDescription</key>
+	<string>This app needs access to AR features for image tracking.</string>
+	<key>NSHandsTrackingUsageDescription</key>
+	<string>This app needs access to hand tracking for interaction.</string>
+	<key>NSEnterpriseMCAMUsageDescription</key>
+	<string>This app requires access to the camera for AR features.</string>
 </dict>
 </plist>
