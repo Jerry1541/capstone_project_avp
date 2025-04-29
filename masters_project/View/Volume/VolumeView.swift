@@ -15,7 +15,7 @@ struct VolumeView: View {
                     .frame(height: self.boardSize * 0.65)
             }
             Spacer()
-            Arena()
+//            Arena()
             if(model.groupSession?.localParticipant == model.groupSession?.activeParticipants.first){
                 ToolbarsView(targetScene: .volume)
             }

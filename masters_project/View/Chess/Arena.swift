@@ -13,9 +13,16 @@ struct Arena: View {
     @State private var isCollision = false
     @State private var isPaused = false
     @State private var isReset = false
+    @State var isStart = false
     @Environment(\.realityKitScene) var scene
     let rknt = "RealityKit.NotificationTrigger"
-    fileprivate func notify(_ scene: RealityKit.Scene) {
+    func notify(_ scene: RealityKit.Scene) {
+        if(isStart) {
+            let notification_start = Notification(name: .init(rknt), userInfo: ["\(rknt).Scene" : scene, "\(rknt).Identifier" : "start"])
+            model.sendAnimationControl(isStart)
+            NotificationCenter.default.post(notification_start)
+        }
+        
         if(isPaused) {
             let notification_resume = Notification(name: .init(rknt), userInfo: ["\(rknt).Scene" : scene, "\(rknt).Identifier" : "resume"])
             NotificationCenter.default.post(notification_resume)
@@ -39,13 +46,11 @@ struct Arena: View {
     var body: some View {
         RealityView { content, attachments in
             
-            //Jeff Code
             let configuration = SpatialTrackingSession.Configuration(tracking: [.hand])
             let session = SpatialTrackingSession()
             await session.run(configuration)
             
             if let immersiveContentEntity = try? await Entity(named: "Immersive", in: realityKitContentBundle) { //Immersive
-                
                 // Change opacity
 //                immersiveContentEntity.components.set(OpacityComponent(opacity: 0.5))
 //                model.sendMessage()
@@ -72,63 +77,87 @@ struct Arena: View {
                 }
                 content.add(immersiveContentEntity)
             }
+            
         }
-        attachments: {
-            Attachment(id: "board") {
+            attachments: {
+                Attachment(id: "board") {
+                }
             }
-        }
-        .rotation3DEffect(.degrees(self.model.activityState.boardAngle), axis: .y)
-//        .offset(z: -5000)
-        .animation(.default, value: self.model.activityState.boardAngle)
-        .frame(width: Size.Point.board(self.physicalMetrics), height: 0)
-        .frame(depth: Size.Point.board(self.physicalMetrics))
-        .overlay {
-            if self.model.showProgressView {
-                ProgressView()
-                    .offset(y: -200)
-                    .scaleEffect(3)
+            .rotation3DEffect(.degrees(self.model.activityState.boardAngle), axis: .y)
+            .animation(.default, value: self.model.activityState.boardAngle)
+            .frame(width: Size.Point.board(self.physicalMetrics), height: 0)
+            .frame(depth: Size.Point.board(self.physicalMetrics))
+            .overlay {
+                if self.model.showProgressView {
+                    ProgressView()
+                        .offset(y: -200)
+                        .scaleEffect(3)
+                }
             }
-        }
-        if(model.isFullSpaceShown) {
-            HStack {
-                if(isPaused) {
-                    Button("Resume") {
+//            .onReceive(NotificationCenter.default.publisher(for: .didReceiveSessionAction)) { notification in
+//                if let action = notification.object as? SessionAction {
+//                    switch action {
+//                    case .start:
+//                        statusText = "🚀 Started!"
+//                    case .pause:
+//                        statusText = "⏸️ Paused."
+//                    case .reset:
+//                        statusText = "🔄 Reset."
+//                    case .resume:
+//                        statusText = "▶️ Resumed."
+//                    }
+//                }
+//            }
+            if(model.isFullSpaceShown) {
+                HStack {
+                    Button("Start", systemImage: "play.fill") {
+//                        model.sendAction(.start)
+                        isPaused = true
+                        isStart = true
                         if let scene {
                             notify(scene)
                         }
                         isPaused = false
+                        isStart = false
                     }
-                }
-                else {
-                    Button("Pause") {
+                    
+                    if(isPaused) {
+                        Button("Resume", systemImage: "play.circle") {
+                            if let scene {
+                                notify(scene)
+                            }
+                            isPaused = false
+                        }
+                    }
+                    else {
+                        Button("Pause", systemImage: "pause.circle") {
+                            if let scene {
+                                notify(scene)
+                            }
+                            isPaused = true
+                        }
+                    }
+                    
+                    Button("Reset", systemImage: "backward.end.circle") {
+                        isReset = true
+                        isPaused = true
                         if let scene {
                             notify(scene)
                         }
-                        isPaused = true
+                        isReset = false
+                        isPaused = false
                     }
                 }
-                
-                Button("Reset") {
-                    isReset = true
-                    isPaused = true
-                    if let scene {
-                        notify(scene)
-                    }
-                    isReset = false
-                    isPaused = false
-                }
             }
+//            if(isCollision) {
+//                ZStack {
+//                    Color.red
+//                    
+//                    Text("Warning! Collision has occurred")
+//                }
+//                .edgesIgnoringSafeArea(.all)
+//            }
         }
-        if(isCollision) {
-            ZStack {
-                Color.red
-                
-                Text("Warning! Collision has occurred")
-            }
-            .edgesIgnoringSafeArea(.all)
-        }
-    }
-    
 }
 
 // MARK: - Code for placing anchors
