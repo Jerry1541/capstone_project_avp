@@ -6,6 +6,8 @@ import Combine
 @MainActor
 class AppModel: ObservableObject {
     @Published private(set) var activityState = ActivityState()
+    @Published private(set) var arena = Arena()
+    @Environment(\.realityKitScene) var scene
     private(set) var rootEntity = Entity()
     @Published private(set) var movingPieces: [Piece.ID] = []
     @Published var isFullSpaceShown: Bool = false
@@ -16,13 +18,29 @@ class AppModel: ObservableObject {
     private var tasks: Set<Task<Void, Never>> = []
     @Published private(set) var spatialSharePlaying: Bool?
     @Published private(set) var queueToOpenScene: TargetScene?
-    
+    private var anchorUpdateHandler: ((AnchorData) -> Void)?
     
     init() {
         self.configureGroupSessions()
         self.setUpEntities()
     }
 }
+
+struct AnchorData: Codable {
+    let position: SIMD3<Float>
+}
+
+//enum SessionAction: Codable {
+//    case start
+//    case pause
+//    case reset
+//    case resume
+//}
+//
+//extension Notification.Name {
+//    static let didReceiveSessionAction = Notification.Name("didReceiveSessionAction")
+//}
+
 
 extension AppModel {
     func upScale() {
@@ -134,6 +152,19 @@ extension AppModel {
                     }
                 )
                 
+                self.tasks.insert(
+                    Task {
+                        for await (message, _) in messenger.messages(of: Bool.self) {
+                            do {
+                                try self.receiveAnimation(message)
+                            }
+                            catch let error{
+                                print("failed to received, Error: \(error)")
+                            }
+                        }
+                    }
+                )
+                
 #if os(visionOS)
                 self.tasks.insert(
                     Task {
@@ -184,6 +215,22 @@ extension AppModel {
         guard message.mode == .sharePlay else { return }
         Task { @MainActor in
             self.activityState = message
+        }
+    }
+    
+    func sendAnimationControl(_ animation: Bool) {
+        Task {
+            print("animation send")
+            try? await messenger?.send(animation)
+        }
+    }
+    private func receiveAnimation(_ animation: Bool) {
+        Task { @MainActor in
+            print("animation received")
+            arena.isStart = animation
+            if let scene {
+                arena.notify(scene)
+            }
         }
     }
 #if os(iOS)
